@@ -25,3 +25,4 @@ runs:
       run: |
         npm ci
         echo "::set-ouput name=cache::'${{ inputs.cache}}'"
+      shell: bash
