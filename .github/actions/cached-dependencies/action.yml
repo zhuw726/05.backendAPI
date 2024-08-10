@@ -5,6 +5,10 @@ inputs:
     description: '0 or 1'
     retuqired: false
     default: 'true'
+outputs:
+  used-cache:
+    description: '0 or 1'
+    value: ${{ steps.install.outputs.cache }}
 runs:
   using: 'composite'
   steps:
@@ -17,4 +21,7 @@ runs:
         key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
     - name: Install dependencies
       if: steps.cache.outputs.cache-hit != 'true' || inputs.cache != 'true'
-      run: npm ci
+      id: install
+      run: |
+        npm ci
+        echo "::set-ouput name=cache::'${{ inputs.cache}}'"
